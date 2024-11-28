@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void inorder(int**array,int*index,struct TreeNode * root)
+{
+    if(root==NULL)
+        return ;
+    inorder(array,index,root->left);
+    (*array)[(*index)++] = root->val;
+    inorder(array,index,root->right);
+}
+int f(const void * a, const void *b)
+{
+    return (*(int*)a - *(int*)b);
+}
+int findSecondMinimumValue(struct TreeNode* root){
+    if(root->left == NULL && root->right == NULL)
+        return -1;
+    int*array = malloc(sizeof(int)*26);
+    int index = 0;
+    inorder(&array,&index,root);
+    array = realloc(array,sizeof(int)*index);
+    qsort(array,index,sizeof(int),f);
+    int max = array[0];
+    int p = 1;
+    while(p < index && array[p] == max)
+        p++;
+    if(p >= index)
+        return -1;
+    return array[p];
+}
