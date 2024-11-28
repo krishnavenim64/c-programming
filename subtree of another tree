@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& c) {
+        set<int>s;
+        for(auto x:c)
+        {
+            s.insert(x);
+        }
+        
+        return min(s.size(),c.size()/2);
+        
+        
+    }
+};
