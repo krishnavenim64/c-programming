@@ -1,0 +1,23 @@
+bool judgeCircle(const char *moves)
+{
+    int x = 0, y = 0;
+
+    while (1)
+    switch (*moves++)
+    {
+        case 'R':
+            ++x; break;
+
+        case 'U':
+            ++y; break;
+
+        case 'L':
+            --x; break;
+
+        case 'D':
+            --y; break;
+
+        default:
+            return x == 0 && y == 0;
+    }
+}
