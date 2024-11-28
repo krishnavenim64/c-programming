@@ -1,0 +1,15 @@
+**
+ * Definition for a binary tree node.
+  * struct TreeNode {
+   *     int val;
+    *     struct TreeNode *left;
+     *     struct TreeNode *right;
+      * };
+       */
+
+       static int tilt;
+…                                                                                                   if(!root) return 0;
+                                                                                                       tilt = 0;
+                                                                                                           sum_children(root);
+                                                                                                               return tilt;
+                                                                                                               }
