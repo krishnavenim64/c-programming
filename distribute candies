@@ -1,0 +1,11 @@
+int cmpFunc(const void* a, const void* b){ return *(int*)a - *(int*)b; }
+
+int distributeCandies(int* candyType, int candyTypeSize) {
+    short result=1, upperLimit=candyTypeSize/2;
+
+    qsort(candyType, candyTypeSize, sizeof(int), cmpFunc);
+    for(short i=1; i<candyTypeSize&&result<upperLimit; i++)
+    { result+=(candyType[i]!=candyType[i-1]); }
+
+    return result;
+}
