@@ -1,0 +1,106 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** imageSmoother(int** img, int imgSize, int* imgColSize, int* returnSize, int** returnColumnSizes) 
+{
+    int** Smoother = (int**) malloc(sizeof(int*) * imgSize);
+    int sum,floor_avg,count;
+
+    *returnSize = imgSize;
+    *returnColumnSizes = (int*)malloc(sizeof(int) * imgSize);
+    for (int i = 0; i < imgSize; i++) {
+        (*returnColumnSizes)[i] = imgColSize[i]; // Copy column sizes from gridColSize
+    }
+
+    for(int i = 0; i < imgSize; i++)    
+        Smoother[i] = (int*) malloc(sizeof(int) * (*imgColSize));
+    
+
+    for(int row = 0; row < imgSize; row++)
+    {
+        for(int col = 0; col < *imgColSize; col++)
+        {
+            sum = 0;
+            count = 0;
+
+            //Top Left
+            if(row-1 >= 0 && col-1 >= 0)
+            {
+                sum += img[row-1][col-1];
+                count++;
+            }
+                
+            
+            //Top Middle
+            if(row-1 >= 0)
+            {
+                sum += img[row-1][col];
+                count++;
+            
+            }
+                
+            //Top Right
+            if(row-1 >= 0 && col+1 < (*imgColSize))
+            {
+                sum += img[row-1][col+1];
+                count++;
+            }
+                
+
+            //Middle left
+            if(col-1 >= 0)
+            {
+                sum += img[row][col-1];
+                count++;
+            }
+                
+            
+            //Middle Middle
+            sum += img[row][col];
+            count++;
+
+            //Middle Right
+            if(col + 1 < (*imgColSize))
+            {
+                sum += img[row][col+1];
+                count++;
+            }
+              
+
+
+            //Bottom Left
+            if(row + 1 < imgSize && col - 1 >= 0)   
+            {
+                sum += img[row+1][col-1];
+                count++;
+            }
+                
+            
+            //Bottom Middle
+            if(row + 1 < imgSize)
+            {
+                sum += img[row+1][col];
+                count++;
+            }
+             
+
+
+            //Bottom Right
+            if(row + 1 < imgSize && col + 1 < (*imgColSize))
+            {
+                sum += img[row+1][col+1];
+                count++;
+            }
+               
+
+            floor_avg = sum/count;
+
+            Smoother[row][col] = floor_avg;
+
+        }
+    }
+
+    return Smoother;    
+}
