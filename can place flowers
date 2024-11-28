@@ -1,0 +1,45 @@
+// honestly idk what i did here
+
+bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n) {
+
+    int num = 0;
+    bool ans;
+
+
+    if (flowerbedSize > 2) {
+
+        //end and starting pots
+        if (flowerbed[0] + flowerbed[1] == 0)
+            num++;
+        if (flowerbed[flowerbedSize - 1] + flowerbed[flowerbedSize - 2] == 0)
+            num++;
+
+
+    } else {
+        //for arrays of size <= 2
+        int i = 0;
+        while (i < flowerbedSize) {
+            if (flowerbed[i] != 0) {
+                num = 0;
+                break;
+            } else {
+                num = 1;
+            }
+            i++;
+        }
+    }
+
+    //start at 2nd pot and end at 4th last pot (if they exist bru)
+    for (int i = 1; i < flowerbedSize - 3;) {
+
+        if (flowerbed[i] + flowerbed[i + 1] + flowerbed[i + 2] == 0) {
+            num++;
+            i += 2;
+        } else {
+            i++;
+        }
+    }
+
+    ans = (bool)(num >= n);
+    return ans;
+}
