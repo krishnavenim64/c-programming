@@ -1,0 +1,74 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+typedef struct {
+    int level;
+    int maxLevel;
+} Level_t;
+
+typedef struct {
+    int level;
+    double* data;
+    int* count;
+} AverageLevelData_t;
+
+static void getMaxNumLevels(struct TreeNode* root, Level_t *pLevelData){
+    if(!root) return;
+    pLevelData->level ++;
+    if(pLevelData->level > pLevelData->maxLevel) pLevelData->maxLevel = pLevelData->level;
+    getMaxNumLevels(root->left, pLevelData);
+    getMaxNumLevels(root->right, pLevelData);
+    pLevelData->level --;
+}
+
+static void getSumsOfLevels(struct TreeNode* root, AverageLevelData_t *pArgs){
+    if(!root) return;
+
+    int i = pArgs->level;
+    pArgs->data[i] += root->val;
+    pArgs->count[i] ++;
+
+    pArgs->level ++;
+    // if(pArgs->level > pArgs->maxLevel) pArgs->maxLevel = pArgs->level;
+    getSumsOfLevels(root->left, pArgs);
+    getSumsOfLevels(root->right, pArgs);
+    pArgs->level --;
+}
+double* averageOfLevels(struct TreeNode* root, int* returnSize) {
+    Level_t levelData = {
+        .level = 0,
+        .maxLevel = 0,
+    };
+
+    getMaxNumLevels(root, &levelData);
+    // printf("%d", levelData.maxLevel);
+    int maxLevels = levelData.maxLevel;
+    double* ret =  malloc(sizeof(double)*maxLevels);
+    if(!ret){
+        // memory error
+        return NULL;
+    }
+    memset(ret, 0, sizeof(double)*maxLevels );
+    int countInStack[maxLevels];
+    memset(countInStack, 0, sizeof(countInStack));
+    AverageLevelData_t avgData = {
+        .level = 0,
+        .data = ret,
+        .count = countInStack
+    };
+    getSumsOfLevels(root, &avgData);
+    for(int i =0; i< maxLevels; i++){
+        avgData.data[i] /= avgData.count[i];
+    }
+    *returnSize = maxLevels;
+    return avgData.data;
+}
