@@ -1,0 +1,24 @@
+ Code
+```c []
+#include <stdio.h>
+
+bool canWinNim(int n) {
+    // A player can win if the number of stones is not a multiple of 4
+    return n % 4 != 0;
+}
+
+int nim() {
+    int n;
+
+    printf("Enter the number of stones: ");
+    scanf("%d", &n);
+
+    if (canWinNim(n)) {
+        printf("You can win the game.\n");
+    } else {
+        printf("You cannot win the game.\n");
+    }
+
+    return nim;
+}
+```
