@@ -1,0 +1,23 @@
+# Code
+```c []
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* findErrorNums(int* nums, int numsSize, int* returnSize) {
+    int *res = (int*)calloc(2, sizeof(int));
+    int *store = (int*)calloc(numsSize + 1, sizeof(int));
+
+    for(int i = 0; i < numsSize; i++)
+        store[nums[i]]++;
+
+    for(int i= 1; i < (numsSize + 1); i++)
+        if(store[i] > 1)
+            res[0] = i;
+        else if(!store[i])
+            res[1] = i;
+
+    *returnSize = 2;
+    free(store);
+    return res;
+}
+```
