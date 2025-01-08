@@ -1,0 +1,15 @@
+bool isOneBitCharacter(int* bits, int bitsSize) {
+    int i=0;
+    while(i<bitsSize-1)
+    {
+        if(bits[i]==0)
+        {
+            i+=1;
+        }
+        else
+        {
+            i+=2;
+        }
+    }
+    return i==bitsSize-1;
+}
