@@ -1,0 +1,56 @@
+void insertionSort(int* arr, int n)
+{
+    int i, key, j;
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+ 
+        /* Move elements of arr[0..i-1], that are
+          greater than key, to one position ahead
+          of their current position */
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+
+typedef struct {
+    int k;
+    int arr[20000];
+    int top;
+} KthLargest;
+
+
+KthLargest* kthLargestCreate(int k, int* nums, int numsSize) {
+    KthLargest* KL = malloc(sizeof(KthLargest));
+    KL->top = -1;
+    KL->k = k;
+    for(int i = 0; i < numsSize; i++){
+        KL->top++;
+        KL->arr[KL->top] = nums[i];
+    }
+    return KL;
+}
+
+int kthLargestAdd(KthLargest* obj, int val) {
+    obj->top++;
+    obj->arr[obj->top] = val;
+    insertionSort(obj->arr, obj->top+1);
+    return obj->arr[obj->top - obj->k + 1];
+}
+
+void kthLargestFree(KthLargest* obj) {
+    free(obj);
+    obj = NULL;
+}
+
+/**
+ * Your KthLargest struct will be instantiated and called as such:
+ * KthLargest* obj = kthLargestCreate(k, nums, numsSize);
+ * int param_1 = kthLargestAdd(obj, val);
+ 
+ * kthLargestFree(obj);
+*/
