@@ -1,0 +1,42 @@
+char* shortestCompletingWord(char* lp, char** words, int wordsSize) {
+    int arr[26] = {0};
+    char* ans = NULL;
+
+    while (*lp != '\0') {
+        if ((*lp >= 'a' && *lp <= 'z') || (*lp >= 'A' && *lp <= 'Z')) {
+            if (*lp >= 'a' && *lp <= 'z')
+                arr[*lp - 'a']++;
+            if (*lp >= 'A' && *lp <= 'Z')
+                arr[*lp - 'A']++;
+        }
+        lp++;
+    }
+
+    int finalLen = 16;
+    int hash[26] = {0};
+    for (int i = 0; i < wordsSize; i++) {
+        
+        char* temps = (char *)malloc(16 * sizeof(char));
+        strcpy(temps,words[i]);
+        while (*temps != '\0') {
+            if(*temps >= 'a' && *temps <= 'z')
+                hash[*temps - 'a']++;
+            else
+                hash[*temps - 'A']++;
+            temps++;
+        }
+        bool check = false;
+        for (int i = 0; i < 26; i++) {
+            if (arr[i] > hash[i])
+                check = true;
+        }
+        if (!check) {
+            if (strlen(words[i]) < finalLen) {
+                finalLen = strlen(words[i]);
+                ans = words[i];
+            }
+        }
+        memset(hash,0,26 * sizeof(int));
+    }
+    return ans;
+}
